@@ -1,5 +1,6 @@
 
 def multiple_user_inputer(*students)
+	print "Hi, please enter students!\n".center(30)
 	students = []
 	name = "placeholder"
 	cohort = "placeholder"
@@ -25,16 +26,16 @@ def multiple_user_inputer(*students)
 	
 end
 
-def user_input
-	print "Hi, please enter students!\n"
-	name = gets.chomp
-	students = []
-		while !name.empty? do
-		students << {:name => name, :cohort => "March"}
-		name = gets.chomp
-		end
-	printer(students)
-end
+# def user_input
+# 	print "Hi, please enter students!\n"
+# 	name = gets.chomp
+# 	students = []
+# 		while !name.empty? do
+# 		students << {:name => name, :cohort => "March"}
+# 		name = gets.chomp
+# 		end
+# 	printer(students)
+# end
 
 def student_list_message
 	print "Students list: \n______________\n"
