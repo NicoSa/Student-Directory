@@ -26,7 +26,7 @@ end
 
 def printer(students)
 	student_list
-	x = 1
+	
 	students.select{|student| if student[:name].length <= 12 then puts "#{student[:name]} from Cohort #{student[:cohort]}" end}
 	# end
 	print_footer(students)
