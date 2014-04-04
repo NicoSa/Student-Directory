@@ -57,9 +57,13 @@ end
 
 
 def print_footer(students)
-	
+	if students.count > 1
 	print "_________________\n"
 	print "Overall, we have #{students.count} great students"
+	else
+	print "_________________\n"
+	print "Overall, we have #{students.count} great student"
+	end
 end
 
 
