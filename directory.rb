@@ -28,7 +28,7 @@ def multiple_user_inputer(*students)
 				if answer.downcase == "list" ; return printer(@students) end
 			else
 				puts "Please fill in all the fields or your information will not be saved"
-				multiple_user_inputer(students)
+				multiple_user_inputer
 			end
 	end
 	
@@ -54,7 +54,6 @@ end
 
 def printer(students)
 	student_list_message
-	puts students
 	students.select{|student| if student[:name].length <= 12 then puts "#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " end}
 
 	print_footer(students)
