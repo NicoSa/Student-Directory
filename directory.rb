@@ -3,9 +3,9 @@ def hello
 		multiple_user_inputer
 end
 
+@students = []
 
 def multiple_user_inputer(*students)
-	students = []
 	name = "Noentry"
 	cohort = "Noentry"
 	height = "Noentry"
@@ -22,18 +22,19 @@ def multiple_user_inputer(*students)
 		hobby = gets.chomp
 			if !name.empty? && !cohort.empty? && !height.empty? && !hobby.empty?
 				single_students = {name: name, cohort: cohort, city: city, hobby: hobby}
-				students << single_students
+				@students << single_students
 				puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
 				answer = gets.chomp
-				if answer.downcase == "list" ; return printer(students) end
+				if answer.downcase == "list" ; return printer(@students) end
 			else
 				puts "Please fill in all the fields or your information will not be saved"
 				multiple_user_inputer(students)
 			end
 	end
-	printer(students)
+	
 	
 end
+
 
 # def user_input
 # 	print "Hi, please enter students!\n"
@@ -53,7 +54,7 @@ end
 
 def printer(students)
 	student_list_message
-	
+	puts students
 	students.select{|student| if student[:name].length <= 12 then puts "#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " end}
 
 	print_footer(students)
