@@ -20,7 +20,8 @@ def put_in_user
 		puts "Hey there, type your name".center(50)
 		name = gets.chomp
 		puts "Put your cohort".center(50)
-		cohort = gets.chomp
+		@cohort = gets.chomp
+		@cohort.downcase.capitalize
 		puts "Put your height".center(50)
 		city = gets.chomp
 		puts "Put your hobby".center(50)
@@ -28,7 +29,7 @@ def put_in_user
 			#if all prompts were answered put data in students array
 			if !name.empty? && !cohort.empty? && !height.empty? && !hobby.empty?
 				@counter += 1
-				single_student = {counter: @counter, name: name, cohort: cohort, city: city, hobby: hobby}
+				single_student = {"#{@cohort}" => {counter: @counter, name: name, city: city, hobby: hobby}}
 				@students << single_student
 				puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
 				answer = gets.chomp
@@ -51,19 +52,21 @@ def student_list_print(students)
 	students_list_message
 	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
 	students.select{|student| 
+	puts "March cohort\n"
+	for x in student.size do
+		puts "#{student["March"][:counter]}.#{student["March"][:name]} from #{student["March"][:city]}, likes #{student["March"][:hobby]}! " 
+	end
+	puts "April cohort\n"
+	for x in student.size do 
+		puts "#{student["April"][:counter]}.#{student["April"][:name]} from #{student["April"][:city]}, likes #{student["April"][:hobby]}! " 
+	end
 	
-	if student[:cohort].downcase == "march"
-		puts "March cohort\n"
-		puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " 
-	elsif student[:cohort].downcase == "april"
-		puts "April\n"
-		puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " 
-	else
-		puts "You entered a student from another cohort then April or March"
-	end }
+}
 	#call how_many_students method
 	how_many_students(students)
 end
+
+
 
 # def student_list_print(students)
 # 	students_list_message
