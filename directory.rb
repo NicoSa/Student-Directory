@@ -31,26 +31,11 @@ def multiple_user_inputer(*students)
 				multiple_user_inputer
 			end
 	end
-	
-	
 end
-
-
-# def user_input
-# 	print "Hi, please enter students!\n"
-# 	name = gets.chomp
-# 	students = []
-# 		while !name.empty? do
-# 		students << {:name => name, :cohort => "March"}
-# 		name = gets.chomp
-# 		end
-# 	printer(students)
-# end
 
 def student_list_message
 	print "Students list: \n______________\n"
 end
-
 
 def printer(students)
 	student_list_message
@@ -58,12 +43,6 @@ def printer(students)
 
 	print_footer(students)
 end
-
-# student_list
-	# x = 1
-	# students.select{|student| if student[:name].length <= 12 then puts "#{student[:name]} from Cohort #{student[:cohort]}" end}
-	# end
-
 
 def print_footer(students)
 	if students.count > 1
