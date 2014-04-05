@@ -49,18 +49,16 @@ end
 def student_list_print(students)
 	students_list_message
 	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	students.select{|student| if student[:name].length <= 12 then puts "#{student[:counter]}. #{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " end}
+	students.select{|student| if student[:name].length <= 12 then puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " end}
 	#call how_many_students method
 	how_many_students(students)
 end
 
 # def student_list_print(students)
-# 	x = 1
 # 	students_list_message
 # 	students.each do |student| 
 # 	if student[:name].downcase.chars.first != "a" then print "#{x}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n"
-# 	x += 1
-# 	end
+# 	if student[:name].size < 12 then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
 # 	end
 # 	how_many_students(students)
 # end
