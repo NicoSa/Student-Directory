@@ -36,7 +36,7 @@ def put_in_user
 				if answer.downcase == "list" ; return student_list_print(@students) end
 			else
 				#prompt when u haven´t entered all information, calls put_in_user
-				puts "Please fill in all the fields or your information will not be saved\n"
+				puts "Please fill in all the fields or your information will not be saved\n\n"
 				put_in_user
 			end
 	end
@@ -49,16 +49,22 @@ end
 def student_list_print(students)
 	students_list_message
 	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	students.select{|student| if student[:name].length <= 12 then puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " end}
+	students.select{|student| puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " }
 	#call how_many_students method
 	how_many_students(students)
 end
 
 # def student_list_print(students)
 # 	students_list_message
-# 	students.each do |student| 
-# 	if student[:name].downcase.chars.first != "a" then print "#{x}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n"
-# 	if student[:name].size < 12 then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
+# 			#filter by starting letter of names
+# 			puts "Please type the starting letter of names you´d like to be filtered!"
+# 			filter_letter = gets.chomp
+# 			students.each do |student| 
+# 			if student[:name].downcase.chars.first != filter_letter then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
+# 			#filter by characters in name
+# 			puts "Please type the number of characters in a number where you want to not have it display in the list anymore "
+# 			filter_number = gets.chomp
+# 			if student[:name].size < filter_number then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
 # 	end
 # 	how_many_students(students)
 # end
