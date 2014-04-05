@@ -44,12 +44,23 @@ end
 #prints student list with a line
 def students_list_message
 	print "Students list: \n______________\n"
+	print "Only students from the March and April cohort will be displayed!\n"
 end
 
 def student_list_print(students)
 	students_list_message
 	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	students.select{|student| puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " }
+	students.select{|student| 
+	
+	if student[:cohort].downcase == "march"
+		puts "March cohort\n"
+		puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " 
+	elsif student[:cohort].downcase == "april"
+		puts "April\n"
+		puts "#{student[:counter]}.#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " 
+	else
+		puts "You entered a student from another cohort then April or March"
+	end }
 	#call how_many_students method
 	how_many_students(students)
 end
