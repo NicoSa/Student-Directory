@@ -5,6 +5,7 @@ def start_script
 end
 #setting empty array students as instance variable
 @students = []
+@counter = 0
 #give input to array students
 def put_in_user
 	#setting variables
@@ -26,7 +27,8 @@ def put_in_user
 		hobby = gets.chomp
 			#if all prompts were answered put data in students array
 			if !name.empty? && !cohort.empty? && !height.empty? && !hobby.empty?
-				single_student = {name: name, cohort: cohort, city: city, hobby: hobby}
+				@counter += 1
+				single_student = {counter: @counter, name: name, cohort: cohort, city: city, hobby: hobby}
 				@students << single_student
 				puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
 				answer = gets.chomp
@@ -47,10 +49,21 @@ end
 def student_list_print(students)
 	students_list_message
 	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	students.select{|student| if student[:name].length <= 12 then puts "#{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " end}
+	students.select{|student| if student[:name].length <= 12 then puts "#{student[:counter]}. #{student[:name]}, #{student[:cohort]} cohort, #{student[:city]}, likes #{student[:hobby]}! " end}
 	#call how_many_students method
 	how_many_students(students)
 end
+
+# def student_list_print(students)
+# 	x = 1
+# 	students_list_message
+# 	students.each do |student| 
+# 	if student[:name].downcase.chars.first != "a" then print "#{x}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n"
+# 	x += 1
+# 	end
+# 	end
+# 	how_many_students(students)
+# end
 
 def how_many_students(students)
 	#if only one student print student, with more print students
