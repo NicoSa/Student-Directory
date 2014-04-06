@@ -56,19 +56,16 @@ def students_list_message
 	print "Only students from the March and April cohort will be displayed!\n"
 end
 
+@fuck = []
 
 def student_list_print(students)
 	# puts students.inspect
 	students_list_message
-	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	x = 0
-	while x < students.size do
-	students.each{|student| cohort_array = "#{student.keys}"
-	cohort_array = [] 
-	cohort_array << student 
-puts cohort_array.inspect}
-	x += 1
-	end
+
+
+	students.select{|student| a = student.keys.to_a ; a << student ; puts a.inspect} 
+	#puts "#{@fuck} cohort:\n"
+	#@fuck.each_with_index{|student, counter| puts "#{counter + 1}. #{student[@fuck][:name]} from #{student[@fuck][:city]} likes #{student[@fuck][:hobby]}"}
 	
 	# students.select{|student| if student.has_key?("april") then @april_cohort << student end} 
 	# puts "April cohort:\n"
