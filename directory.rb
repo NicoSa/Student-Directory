@@ -5,7 +5,6 @@ def start_script
 end
 #setting empty array students as instance variable
 @students = []
-@counter = 0
 #give input to array students
 def put_in_user
 	#setting variables
@@ -20,16 +19,15 @@ def put_in_user
 		puts "Hey there, type your name".center(50)
 		name = gets.chomp
 		puts "Put your cohort".center(50)
-		@cohort = gets.chomp
-		@cohort.downcase.capitalize
+		cohort_input = gets.chomp
+		@cohort = cohort_input.downcase
 		puts "Put your height".center(50)
 		city = gets.chomp
 		puts "Put your hobby".center(50)
 		hobby = gets.chomp
 			#if all prompts were answered put data in students array
 			if !name.empty? && !cohort.empty? && !height.empty? && !hobby.empty?
-				@counter += 1
-				single_student = {"#{@cohort}" => {counter: @counter, name: name, city: city, hobby: hobby}}
+				single_student = {"#{@cohort}" => {name: name, city: city, hobby: hobby}}
 				@students << single_student
 				puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
 				answer = gets.chomp
@@ -54,14 +52,13 @@ end
 def student_list_print(students)
 	students_list_message
 	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	students.select{|student| if student.has_value?("march") then @march_cohort << student end
-		} 
-	students.select{|student| if student.has_value?("april") then @april_cohort << student end
-		} 
+	students.select{|student| if student.has_key?("march") then @march_cohort << student end} 
 	puts "March cohort:\n"
-	puts @march_cohort
+	@march_cohort.each_with_index{|student, counter| puts "#{counter + 1}. #{student["march"][:name]} from #{student["march"][:city]} likes #{student["march"][:hobby]}"}
+	
+	students.select{|student| if student.has_key?("april") then @april_cohort << student end} 
 	puts "April cohort:\n"
-	puts @april_cohort
+	@april_cohort.each_with_index{|student, counter| puts "#{counter + 1}. #{student["april"][:name]} from #{student["april"][:city]} likes #{student["april"][:hobby]}"}
 
 	
 	#call how_many_students method
