@@ -1,7 +1,7 @@
 #welcome message, calls put in user
 def start_script
-		print "Hi, please enter students!\n".center(30)
-		puts @months.inspect
+		print "Hi, please enter students!\n\n".center(30)
+		#puts @months.inspect
 		put_in_user
 end
 #setting empty array students as instance variable
@@ -43,7 +43,7 @@ def put_in_user
 			else name.empty? && @cohort.empty? && height.empty? && hobby.empty?
 				#prompt when u haven´t entered all information, calls put_in_user
 				puts "Please fill in all fields\n!"
-				puts "If you want to go to the list instead, type 'list'!"
+				puts "If you want to go to the list instead, type 'list'! Otherwise press return."
 				answer = gets.chomp
 					if answer.downcase == "list" ; return student_list_print(@students) end
 				put_in_user
@@ -53,16 +53,28 @@ end
 #prints student list with a line
 def students_list_message
 	print "Students list: \n______________\n"
-	print "Only students from the March and April cohort will be displayed!\n"
+	#print "Only students from the March and April cohort will be displayed!\n"
 end
 
 
 def student_list_print(students)
 	# puts students.inspect
+	if students.size > 0 
 	students_list_message
-
-
 	students.sort_by{|student| student[:month]}.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+	how_many_students(students)
+	else
+		puts "Sorry, no entries have been made! Therefore no list!\n"
+		puts "To continue type 'continue', to quit type 'quit'"
+		answer = gets.chomp
+			case answer
+				when "continue" 
+				put_in_user
+				when "quit"  
+				else 
+				puts "you´re to dumb for this, goodbye!"
+			end
+	end
 	# puts "#{@fuck} cohort:\n"
 	#@fuck.each_with_index{|student, counter| puts "#{counter + 1}. #{student[@fuck][:name]} from #{student[@fuck][:city]} likes #{student[@fuck][:hobby]}"}
 	
@@ -72,7 +84,6 @@ def student_list_print(students)
 
 	
 	#call how_many_students method
-	how_many_students(students)
 end
 
 
