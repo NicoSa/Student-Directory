@@ -29,7 +29,7 @@ def put_in_user
 		hobby = gets.chomp
 			#if all prompts were answered put data in students array
 			if !name.empty? &&  ( !@cohort.empty? && @months.include?("#{@cohort}")) && !height.empty? && !hobby.empty?
-					single_student = {"#{@cohort}" => {name: name, city: city, hobby: hobby}}
+					single_student = {month: "#{@cohort}", name: name, city: city, hobby: hobby}
 					@students << single_student
 				puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
 				answer = gets.chomp
@@ -37,7 +37,7 @@ def put_in_user
 					if answer.downcase == "list" ; return student_list_print(@students) end
 
 			elsif !@months.include?("#{@cohort}") && !name.empty? && !@cohort.empty? && !height.empty? && !hobby.empty?
-				puts "You did´t enter a valid month, please try again!"
+				puts "You did´t enter a valid month, please try again!\n"
 				put_in_user
 
 			else name.empty? && @cohort.empty? && height.empty? && hobby.empty?
@@ -56,15 +56,14 @@ def students_list_message
 	print "Only students from the March and April cohort will be displayed!\n"
 end
 
-@fuck = []
 
 def student_list_print(students)
 	# puts students.inspect
 	students_list_message
 
 
-	students.select{|student| a = student.keys.to_a ; a << student ; puts a.inspect} 
-	#puts "#{@fuck} cohort:\n"
+	students.sort_by{|student| student[:month]}.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+	# puts "#{@fuck} cohort:\n"
 	#@fuck.each_with_index{|student, counter| puts "#{counter + 1}. #{student[@fuck][:name]} from #{student[@fuck][:city]} likes #{student[@fuck][:hobby]}"}
 	
 	# students.select{|student| if student.has_key?("april") then @april_cohort << student end} 
