@@ -35,7 +35,10 @@ def put_in_user
 				if answer.downcase == "list" ; return student_list_print(@students) end
 			else
 				#prompt when u haven´t entered all information, calls put_in_user
-				puts "Please fill in all the fields or your information will not be saved\n\n"
+				puts "Please fill in all the fields or your information will not be saved\n"
+				puts "If you want to go to the list instead, type 'list'!"
+				answer = gets.chomp
+				if answer.downcase == "list" ; return student_list_print(@students) end
 				put_in_user
 			end
 	end
