@@ -29,21 +29,23 @@ def put_in_user
 		hobby = gets.chomp
 			#if all prompts were answered put data in students array
 			if !name.empty? &&  ( !@cohort.empty? && @months.include?("#{@cohort}")) && !height.empty? && !hobby.empty?
-				single_student = {"#{@cohort}" => {name: name, city: city, hobby: hobby}}
-				@students << single_student
+					single_student = {"#{@cohort}" => {name: name, city: city, hobby: hobby}}
+					@students << single_student
 				puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
 				answer = gets.chomp
-				#if user wants to make more entries hit return, to see list enter list, calls student_list_printer
-				if answer.downcase == "list" ; return student_list_print(@students) end
+					#if user wants to make more entries hit return, to see list enter list, calls student_list_printer
+					if answer.downcase == "list" ; return student_list_print(@students) end
+
 			elsif !@months.include?("#{@cohort}") && !name.empty? && !@cohort.empty? && !height.empty? && !hobby.empty?
 				puts "You did´t enter a valid month, please try again!"
 				put_in_user
+
 			else name.empty? && @cohort.empty? && height.empty? && hobby.empty?
 				#prompt when u haven´t entered all information, calls put_in_user
 				puts "Please fill in all fields\n!"
 				puts "If you want to go to the list instead, type 'list'!"
 				answer = gets.chomp
-				if answer.downcase == "list" ; return student_list_print(@students) end
+					if answer.downcase == "list" ; return student_list_print(@students) end
 				put_in_user
 			end
 	end
@@ -54,24 +56,27 @@ def students_list_message
 	print "Only students from the March and April cohort will be displayed!\n"
 end
 
-@march_cohort = []
-@april_cohort = []
 
 def student_list_print(students)
-	puts students.inspect
-	# students_list_message
-	# #select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	# students.select{|student| if student.has_key?("march") then @march_cohort << student end} 
-	# puts "March cohort:\n"
-	# @march_cohort.each_with_index{|student, counter| puts "#{counter + 1}. #{student["march"][:name]} from #{student["march"][:city]} likes #{student["march"][:hobby]}"}
+	# puts students.inspect
+	students_list_message
+	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
+	x = 0
+	while x < students.size do
+	students.each{|student| cohort_array = "#{student.keys}"
+	cohort_array = [] 
+	cohort_array << student 
+puts cohort_array.inspect}
+	x += 1
+	end
 	
 	# students.select{|student| if student.has_key?("april") then @april_cohort << student end} 
 	# puts "April cohort:\n"
 	# @april_cohort.each_with_index{|student, counter| puts "#{counter + 1}. #{student["april"][:name]} from #{student["april"][:city]} likes #{student["april"][:hobby]}"}
 
 	
-	# #call how_many_students method
-	# how_many_students(students)
+	#call how_many_students method
+	how_many_students(students)
 end
 
 
