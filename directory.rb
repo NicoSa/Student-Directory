@@ -48,20 +48,22 @@ def students_list_message
 	print "Only students from the March and April cohort will be displayed!\n"
 end
 
+@march_cohort = []
+@april_cohort = []
+
 def student_list_print(students)
 	students_list_message
 	#select all students from the student array and print each one in a new line when the name is not longer than 12 characters
-	students.select{|student| 
-	puts "March cohort\n"
-	for x in student.size do
-		puts "#{student["March"][:counter]}.#{student["March"][:name]} from #{student["March"][:city]}, likes #{student["March"][:hobby]}! " 
-	end
-	puts "April cohort\n"
-	for x in student.size do 
-		puts "#{student["April"][:counter]}.#{student["April"][:name]} from #{student["April"][:city]}, likes #{student["April"][:hobby]}! " 
-	end
+	students.select{|student| if student.has_value?("march") then @march_cohort << student end
+		} 
+	students.select{|student| if student.has_value?("april") then @april_cohort << student end
+		} 
+	puts "March cohort:\n"
+	puts @march_cohort
+	puts "April cohort:\n"
+	puts @april_cohort
+
 	
-}
 	#call how_many_students method
 	how_many_students(students)
 end
