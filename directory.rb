@@ -10,10 +10,7 @@ end
 #give input to array students
 def put_in_user
 	#setting variables
-	name = "placeholder"
-	cohort = "placeholder"
-	height = "placeholder"
-	hobby = "placeholder"
+	name, cohort, height, hobby = "placeholder", "placeholder", "placeholder", "placeholder"
 	answer = ""
     #as long input is not empty it will run the loop
     while !name.empty? do
@@ -38,14 +35,13 @@ def put_in_user
 
 			elsif !@months.include?("#{@cohort}") && !name.empty? && !@cohort.empty? && !height.empty? && !hobby.empty?
 				puts "You did´t enter a valid month, please try again!\n"
-				put_in_user
-
+				return put_in_user
 			else name.empty? && @cohort.empty? && height.empty? && hobby.empty?
 				#prompt when u haven´t entered all information, calls put_in_user
 				puts "Please fill in all fields\n!"
 				puts "If you want to go to the list instead, type 'list'! Otherwise press return."
 				answer = gets.chomp
-					if answer.downcase == "list" ; return student_list_print(@students) end
+				if answer.downcase == "list" ; return student_list_print(@students) end
 				put_in_user
 			end
 	end
