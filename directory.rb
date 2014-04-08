@@ -73,7 +73,7 @@ def no_entries_prompt
 		put_in_user
 		when "quit"  
 		else 
-		puts "you´re to dumb for this, goodbye!"
+		puts "you´re too dumb for this, goodbye!"
 	end
 end
 
@@ -90,6 +90,21 @@ def student_list_print(students)
 	how_many_students(students)
 end
 
+def how_many_students(students)
+	#puts @students array into a file
+	File.open("student", "w") { |f| f.write @students}
+	#if only one student print student, with more print students
+	if students.count > 1
+	print "_________________\n"
+	print "Overall, we have #{students.count} great students"
+	else
+	print "_________________\n"
+	print "Overall, we have #{students.count} great student"
+	end
+end
+
+
+start_script
 
 
 # def student_list_print(students)
@@ -107,16 +122,3 @@ end
 # 	how_many_students(students)
 # end
 
-def how_many_students(students)
-	#if only one student print student, with more print students
-	if students.count > 1
-	print "_________________\n"
-	print "Overall, we have #{students.count} great students"
-	else
-	print "_________________\n"
-	print "Overall, we have #{students.count} great student"
-	end
-end
-
-
-start_script
