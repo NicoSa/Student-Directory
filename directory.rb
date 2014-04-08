@@ -64,6 +64,19 @@ def students_list_message
 	#print "Only students from the March and April cohort will be displayed!\n"
 end
 
+def no_entries_prompt
+	puts "Sorry, no entries have been made! Therefore no list!\n"
+	puts "To continue type 'continue', to quit type 'quit'"
+	answer = gets.chomp
+	case answer
+		when "continue" 
+		put_in_user
+		when "quit"  
+		else 
+		puts "you´re to dumb for this, goodbye!"
+	end
+end
+
 
 def student_list_print(students)
 	# puts students.inspect
@@ -71,18 +84,8 @@ def student_list_print(students)
 	students_list_message
 	sort_students = students.sort_by{|student| @months.index(student[:month])}
 	sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
-	
 	else
-		puts "Sorry, no entries have been made! Therefore no list!\n"
-		puts "To continue type 'continue', to quit type 'quit'"
-		answer = gets.chomp
-			case answer
-				when "continue" 
-				put_in_user
-				when "quit"  
-				else 
-				puts "you´re to dumb for this, goodbye!"
-			end
+	no_entries_prompt
 	end
 	how_many_students(students)
 end
