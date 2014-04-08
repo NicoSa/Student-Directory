@@ -7,36 +7,70 @@ end
 #setting empty array students as instance variable
 @students = []
 @months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
+
+def placeholder
+	["placeholder", "placeholder", "placeholder", "placeholder"]
+end
 #give input to array students
 def put_in_user
 	#setting variables
-	name, cohort, height, hobby = "placeholder", "placeholder", "placeholder", "placeholder"
+	name, cohort, height, hobby = placeholder
 	answer = ""
     #as long input is not empty it will run the loop
-    while !name.empty? do
+    #while !name.empty? do
     	#prompting the user for input and receiving it
 		puts "Hey there, type your name".center(50)
 		name = gets.chomp
 		puts "Put your cohort".center(50)
 		cohort_input = gets.chomp
-		@cohort = cohort_input.downcase
+		cohort = cohort_input.downcase
 		puts "Put your height".center(50)
 		city = gets.chomp
 		puts "Put your hobby".center(50)
 		hobby = gets.chomp
-			#if all prompts were answered put data in students array
-			if !name.empty? &&  ( !@cohort.empty? && @months.include?("#{@cohort}")) && !height.empty? && !hobby.empty?
-					single_student = {month: "#{@cohort}", name: name, city: city, hobby: hobby}
+		validation_of_user_input(name, cohort, city, hobby)
+			# #if all prompts were answered put data in students array
+			# if !name.empty? &&  ( !@cohort.empty? && @months.include?("#{@cohort}")) && !height.empty? && !hobby.empty?
+			# 		single_student = {month: "#{@cohort}", name: name, city: city, hobby: hobby}
+			# 		@students << single_student
+			# 	puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
+			# 	answer = gets.chomp
+			# 		#if user wants to make more entries hit return, to see list enter list, calls student_list_printer
+			# 		if answer.downcase == "list" ; return student_list_print(@students) end
+
+			# elsif !@months.include?("#{@cohort}") && !name.empty? && !@cohort.empty? && !height.empty? && !hobby.empty?
+			# 	puts "You did´t enter a valid month, please try again!\n"
+			# 	return put_in_user
+			# else name.empty? && @cohort.empty? && height.empty? && hobby.empty?
+			# 	#prompt when u haven´t entered all information, calls put_in_user
+			# 	puts "Please fill in all fields\n!"
+			# 	puts "If you want to go to the list instead, type 'list'! Otherwise press return."
+			# 	answer = gets.chomp
+			# 	if answer.downcase == "list" ; return student_list_print(@students) end
+			# 	put_in_user
+			# end
+	#end
+end
+
+def validation_of_user_input(name, cohort, city, hobby)
+	#if all prompts were answered put data in students array
+	puts name
+	puts cohort
+	puts city
+	puts hobby
+
+	if !name.empty? &&  ( !cohort.empty? && @months.include?("#{cohort}")) && !city.empty? && !hobby.empty?
+					single_student = {month: "#{cohort}", name: name, city: city, hobby: hobby}
 					@students << single_student
 				puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
 				answer = gets.chomp
 					#if user wants to make more entries hit return, to see list enter list, calls student_list_printer
 					if answer.downcase == "list" ; return student_list_print(@students) end
 
-			elsif !@months.include?("#{@cohort}") && !name.empty? && !@cohort.empty? && !height.empty? && !hobby.empty?
+			elsif !@months.include?("#{cohort}") && !name.empty? && !cohort.empty? && !city.empty? && !hobby.empty?
 				puts "You did´t enter a valid month, please try again!\n"
 				return put_in_user
-			else name.empty? && @cohort.empty? && height.empty? && hobby.empty?
+			else name.empty? && cohort.empty? && city.empty? && hobby.empty?
 				#prompt when u haven´t entered all information, calls put_in_user
 				puts "Please fill in all fields\n!"
 				puts "If you want to go to the list instead, type 'list'! Otherwise press return."
@@ -44,8 +78,8 @@ def put_in_user
 				if answer.downcase == "list" ; return student_list_print(@students) end
 				put_in_user
 			end
-	end
 end
+
 #prints student list with a line
 def students_list_message
 	print "Students list: \n______________\n"
@@ -57,8 +91,8 @@ def student_list_print(students)
 	# puts students.inspect
 	if students.size > 0 
 	students_list_message
-	students.sort_by{|student| student[:month]}.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
-	how_many_students(students)
+	return students.sort_by{|student| student[:month]}.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+	
 	else
 		puts "Sorry, no entries have been made! Therefore no list!\n"
 		puts "To continue type 'continue', to quit type 'quit'"
@@ -71,6 +105,7 @@ def student_list_print(students)
 				puts "you´re to dumb for this, goodbye!"
 			end
 	end
+	how_many_students(students)
 	# puts "#{@fuck} cohort:\n"
 	#@fuck.each_with_index{|student, counter| puts "#{counter + 1}. #{student[@fuck][:name]} from #{student[@fuck][:city]} likes #{student[@fuck][:hobby]}"}
 	
