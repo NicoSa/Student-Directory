@@ -69,7 +69,8 @@ def student_list_print(students)
 	# puts students.inspect
 	if students.size > 0 
 	students_list_message
-	students.sort_by{|student| @months.index(student[:month])}.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+	sort_students = students.sort_by{|student| @months.index(student[:month])}
+	sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
 	
 	else
 		puts "Sorry, no entries have been made! Therefore no list!\n"
@@ -84,15 +85,6 @@ def student_list_print(students)
 			end
 	end
 	how_many_students(students)
-	# puts "#{@fuck} cohort:\n"
-	#@fuck.each_with_index{|student, counter| puts "#{counter + 1}. #{student[@fuck][:name]} from #{student[@fuck][:city]} likes #{student[@fuck][:hobby]}"}
-	
-	# students.select{|student| if student.has_key?("april") then @april_cohort << student end} 
-	# puts "April cohort:\n"
-	# @april_cohort.each_with_index{|student, counter| puts "#{counter + 1}. #{student["april"][:name]} from #{student["april"][:city]} likes #{student["april"][:hobby]}"}
-
-	
-	#call how_many_students method
 end
 
 
