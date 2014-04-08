@@ -19,34 +19,35 @@ def put_in_user
     	#prompting the user for input and receiving it
 		puts "Hey there, type your name".center(50)
 		name = gets.chomp
+		
 		puts "Put your cohort".center(50)
 		cohort_input = gets.chomp
 		cohort = cohort_input.downcase
+		
 		puts "Put your height".center(50)
 		city = gets.chomp
+		
 		puts "Put your hobby".center(50)
 		hobby = gets.chomp
-		validation_of_user_input(name, cohort, city, hobby)
+
+	validation_of_user_input(name, cohort, city, hobby)
 		
 end
 
 def validation_of_user_input(name, cohort, city, hobby)
 	#if all prompts were answered put data in students array
 	
-	if !name.empty? &&  ( !cohort.empty? && @months.include?("#{cohort}")) && !city.empty? && !hobby.empty?
+			if !name.empty? &&  ( !cohort.empty? && @months.include?("#{cohort}")) && !city.empty? && !hobby.empty?
 				single_student = {month: "#{cohort}", name: name, city: city, hobby: hobby}
 				@students << single_student
 				list_or_continue_prompt
 			elsif !@months.include?("#{cohort}") && !name.empty? && !cohort.empty? && !city.empty? && !hobby.empty?
-				puts "You did´t enter a valid month, please try again!\n"
+				puts "You did´t enter a valid month, please try again!\n\n"
 				put_in_user
 			else name.empty? && cohort.empty? && city.empty? && hobby.empty?
 				#prompt when u haven´t entered all information, calls put_in_user
 				puts "Please fill in all fields\n!"
-				puts "If you want to go to the list instead, type 'list'! Otherwise press return."
-				answer = gets.chomp
-				if answer.downcase == "list" ; return student_list_print(@students) end
-				put_in_user
+				list_or_continue_prompt
 			end
 end
 
@@ -57,7 +58,7 @@ def list_or_continue_prompt
 	if answer.downcase == "list" ; return student_list_print(@students) end
 	put_in_user
 end
-#prints student list with a line
+
 def students_list_message
 	print "Students list: \n______________\n"
 	#print "Only students from the March and April cohort will be displayed!\n"
@@ -68,7 +69,7 @@ def student_list_print(students)
 	# puts students.inspect
 	if students.size > 0 
 	students_list_message
-	students.sort_by{|student| student[:month]}.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+	students.sort_by{|student| @months.index(student[:month])}.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
 	
 	else
 		puts "Sorry, no entries have been made! Therefore no list!\n"
@@ -123,5 +124,4 @@ def how_many_students(students)
 end
 
 
-#starts script
 start_script
