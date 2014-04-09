@@ -1,3 +1,4 @@
+
 def start_script
 	interactive_menu
 end
@@ -9,7 +10,8 @@ def interactive_menu
 	's' save students to list
 	'l' load student from file
 	'x' exit"
-	selection = gets.chomp
+	selection = STDIN.gets.chomp
+	
 	interactive_menu_case(selection)
 end
 
@@ -22,7 +24,7 @@ def interactive_menu_case(selection)
 	when "s"
 		save_student
 	when "l"
-		load_student
+		load_students
 	when "x"
 	else
 	puts "I didn´t get that, try again!"
@@ -49,17 +51,17 @@ def put_in_user
 	name, cohort, city, hobby = placeholder
     	#prompting the user for input and receiving it
 		puts "Hey there, type your name".center(50)
-		name = gets.chomp
+		name = STDIN.gets.chomp
 		
 		puts "Put your cohort".center(50)
-		cohort_input = gets.chomp
+		cohort_input = STDIN.gets.chomp
 		cohort = cohort_input.downcase
 		
 		puts "Put your city".center(50)
-		city = gets.chomp
+		city = STDIN.gets.chomp
 		
 		puts "Put your hobby".center(50)
-		hobby = gets.chomp
+		hobby = STDIN.gets.chomp
 
 	validation_of_user_input(name, cohort, city, hobby)
 		
@@ -84,7 +86,7 @@ end
 
 def list_or_continue_prompt
 	puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
-	answer = gets.chomp
+	answer = STDIN.gets.chomp
 	#if user wants to make more entries hit return, to see list enter list, calls student_list_printer
 	if answer.downcase == "list" ; return student_list_print(@students) end
 	put_in_user
@@ -98,7 +100,7 @@ end
 def no_entries_prompt
 	puts "Sorry, no entries have been made! Therefore no list!\n"
 	puts "To continue type 'continue', to quit type 'quit'"
-	answer = gets.chomp
+	answer = STDIN.gets.chomp
 	case answer
 		when "continue" 
 		put_in_user
@@ -145,29 +147,42 @@ def save_student
 	file.close
 end
 
-def load_student
-	file = File.open("students.csv", "r")
+def try_load_students
+	filename = ARGV.first
+
+	#return if filename.nil?
+	if !filename.nil? && File.exists?(filename) 
+		load_students(filename)
+		puts "successfully loaded file"
+		interactive_menu
+	else
+		interactive_menu
+	end
+end
+
+def load_students(filename = "students.csv")
+	file = File.open(filename, "r")
 	file.readlines.each do |line|
-		month, name, city, hobby = line.chomp.split(',')
+		month, name, city, hobby = line.split(',')
 		@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
 		end
 	file.close
 	interactive_menu
 end
 
-start_script
+try_load_students
 
-
+#start_script
 # def student_list_print(students)
 # 	students_list_message
 # 			#filter by starting letter of names
 # 			puts "Please type the starting letter of names you´d like to be filtered!"
-# 			filter_letter = gets.chomp
+# 			filter_letter = gets.gets
 # 			students.each do |student| 
 # 			if student[:name].downcase.chars.first != filter_letter then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
 # 			#filter by characters in name
 # 			puts "Please type the number of characters in a number where you want to not have it display in the list anymore "
-# 			filter_number = gets.chomp
+# 			filter_number = gets.gets
 # 			if student[:name].size < filter_number then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
 # 	end
 # 	how_many_students(students)
