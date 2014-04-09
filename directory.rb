@@ -5,8 +5,9 @@ end
 def interactive_menu
 	puts "Hey, choose your action, son:
 	'i' input students
-	'l' list students
+	'list' list students
 	's' save students to list
+	'l' load student from file
 	'x' exit"
 	selection = gets.chomp
 	interactive_menu_case(selection)
@@ -16,10 +17,12 @@ def interactive_menu_case(selection)
 	case selection
 	when "i"
 		put_in_user
-	when "l"
-		student_list_print
+	when "list"
+		student_list_print(@students)
 	when "s"
 		save_student
+	when "l"
+		load_student
 	when "x"
 	else
 	puts "I didn´t get that, try again!"
@@ -52,7 +55,7 @@ def put_in_user
 		cohort_input = gets.chomp
 		cohort = cohort_input.downcase
 		
-		puts "Put your height".center(50)
+		puts "Put your city".center(50)
 		city = gets.chomp
 		
 		puts "Put your hobby".center(50)
@@ -134,12 +137,22 @@ end
 
 def save_student
 	file = File.open("students.csv", "w")
-	@students.each do |student|
+	@students.each { |student|
 		student_data = [student[:name], student[:month], student[:city], student[:hobby]]
 		csv_line = student_data.join(",")
 		file.puts csv_line
-	end
+	}
 	file.close
+end
+
+def load_student
+	file = File.open("students.csv", "r")
+	file.readlines.each do |line|
+		month, name, city, hobby = line.chomp.split(',')
+		@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
+		end
+	file.close
+	interactive_menu
 end
 
 start_script
