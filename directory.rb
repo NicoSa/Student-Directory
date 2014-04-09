@@ -6,6 +6,7 @@ def interactive_menu
 	puts "Hey, choose your action, son:
 	'i' input students
 	'l' list students
+	's' save students to list
 	'x' exit"
 	selection = gets.chomp
 	interactive_menu_case(selection)
@@ -17,6 +18,8 @@ def interactive_menu_case(selection)
 		put_in_user
 	when "l"
 		student_list_print
+	when "s"
+		save_student
 	when "x"
 	else
 	puts "I didn´t get that, try again!"
@@ -109,6 +112,7 @@ def student_list_print(students=[])
 	students_list_message
 	sort_students = students.sort_by{|student| @months.index(student[:month])}
 	sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+	save_student
 	how_many_students(students)
 	else
 	no_entries_prompt
@@ -128,6 +132,15 @@ def how_many_students(students)
 	end
 end
 
+def save_student
+	file = File.open("students.csv", "w")
+	@students.each do |student|
+		student_data = [student[:name], student[:month], student[:city], student[:hobby]]
+		csv_line = student_data.join(",")
+		file.puts csv_line
+	end
+	file.close
+end
 
 start_script
 
