@@ -1,9 +1,34 @@
-#welcome message, calls put in user
 def start_script
-		print "Hi, please enter students!\n\n".center(30)
-		#puts @months.inspect
-		put_in_user
+	interactive_menu
 end
+
+def interactive_menu
+	puts "Hey, choose your action, son:
+	'i' input students
+	'l' list students
+	'x' exit"
+	selection = gets.chomp
+	interactive_menu_case(selection)
+end
+
+def interactive_menu_case(selection)
+	case selection
+	when "i"
+		put_in_user
+	when "l"
+		student_list_print
+	when "x"
+	else
+	puts "I didn´t get that, try again!"
+	interactive_menu
+	end
+end
+#welcome message, calls put in user
+# def start_script
+# 		print "Hi, please enter students!\n\n".center(30)
+# 		#puts @months.inspect
+# 		put_in_user
+# end
 #setting empty array students as instance variable
 @students = []
 @months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
@@ -15,7 +40,7 @@ end
 #give input to array students
 def put_in_user
 	#setting variables
-	name, cohort, height, hobby = placeholder
+	name, cohort, city, hobby = placeholder
     	#prompting the user for input and receiving it
 		puts "Hey there, type your name".center(50)
 		name = gets.chomp
@@ -78,21 +103,21 @@ def no_entries_prompt
 end
 
 
-def student_list_print(students)
+def student_list_print(students=[])
 	# puts students.inspect
 	if students.size > 0 
 	students_list_message
 	sort_students = students.sort_by{|student| @months.index(student[:month])}
 	sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+	how_many_students(students)
 	else
 	no_entries_prompt
 	end
-	how_many_students(students)
 end
 
 def how_many_students(students)
 	#puts @students array into a file
-	File.open("student", "w") { |f| f.write @students}
+	#File.open("student", "w") { |f| f.write @students}
 	#if only one student print student, with more print students
 	if students.count > 1
 	print "_________________\n"
