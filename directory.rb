@@ -62,7 +62,9 @@ def load_students(filename = @filename)
 	puts "Please enter name of file!"
 	filename = STDIN.gets.chomp
 	if File.exist?(filename)
-		puts CSV.read(filename)
+		csv = CSV.read(filename)
+		parse_to_load_file(csv)
+		interactive_menu
 	else
 		puts "no valid filename!"
 		interactive_menu
@@ -70,16 +72,18 @@ def load_students(filename = @filename)
 
 end
 
-def parse_file_to_students(line)
-	month, name, city, hobby = line.each{|student| student}
-	@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
+def parse_to_load_file(line)
+	line.each_with_index do |student, index|
+		student = {month: line[index][0] , name: line[index][1], city: line[index][2], hobby: line[index][3]}
+		@students << student
+	end
 end
 
 def try_load_students
 	filename = ARGV.first
 
 	#return if filename.nil?
-	if !filename.nil? && File.exists?(filename) 
+	if !filename.nil? && File.exist?(filename) 
 		load_students(filename)
 		interactive_menu
 	else
