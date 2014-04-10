@@ -119,10 +119,11 @@ def validation_of_user_input(name, cohort, city, hobby)
 end
 
 def list_or_continue_prompt
-	puts "For list, enter: 'list' ! To continue adding user, press enter".center(50)
+	puts "For list, enter: 'list' ! To continue adding user, press enter! Type 'menu' to go back to the menu!".center(50)
 	answer = STDIN.gets.chomp
 	#if user wants to make more entries hit return, to see list enter list, calls student_list_printer
 	if answer.downcase == "list" ; return student_list_print(@students) end
+	if answer.downcase == "menu" ; return interactive_menu end
 	put_in_user
 end
 
@@ -133,9 +134,11 @@ end
 
 def no_entries_prompt
 	puts "Sorry, no entries have been made! Therefore no list!\n"
-	puts "To continue type 'continue', to quit type 'quit'"
+	puts "To continue type 'continue', to quit type 'quit'. For back to menu, type 'menu'"
 	answer = STDIN.gets.chomp
 	case answer
+		when "menu"
+		interactive_menu
 		when "continue" 
 		put_in_user
 		when "quit"  
