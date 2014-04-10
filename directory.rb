@@ -32,13 +32,46 @@ def interactive_menu_case(selection)
 	interactive_menu
 	end
 end
-#welcome message, calls put in user
-# def start_script
-# 		print "Hi, please enter students!\n\n".center(30)
-# 		#puts @months.inspect
-# 		put_in_user
-# end
-#setting empty array students as instance variable
+
+def save_student
+	file = File.open("students.csv", "w") do |file|
+	@students.each do |student|
+		parse_to_save_file(student, file)
+	end
+	#file.close
+	end
+end
+
+def parse_to_save_file(student, file)
+student_data = [student[:name], student[:month], student[:city], student[:hobby]]
+csv_line = student_data.join(",")
+file.puts csv_line
+end
+
+def load_students(filename = "students.csv")
+	 File.open(filename, "r") do |file|
+		file.readlines.each { |line| parse_file_to_students(line) }
+	end
+	interactive_menu
+end
+
+def parse_file_to_students(line)
+	month, name, city, hobby = line.split(',')
+	@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
+end
+
+def try_load_students
+	filename = ARGV.first
+
+	#return if filename.nil?
+	if !filename.nil? && File.exists?(filename) 
+		load_students(filename)
+		interactive_menu
+	else
+		interactive_menu
+	end
+end
+
 @students = []
 @months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
 
@@ -154,61 +187,7 @@ def end_script?
 	end
 end
 
-def save_student
-	file = File.open("students.csv", "w") do |file|
-	@students.each do |student|
-		parse_to_save_file(student, file)
-	end
-	#file.close
-	end
-end
-
-def parse_to_save_file(student, file)
-student_data = [student[:name], student[:month], student[:city], student[:hobby]]
-csv_line = student_data.join(",")
-file.puts csv_line
-
-end
-
-def try_load_students
-	filename = ARGV.first
-
-	#return if filename.nil?
-	if !filename.nil? && File.exists?(filename) 
-		load_students(filename)
-		interactive_menu
-	else
-		interactive_menu
-	end
-end
-
-def parse_file_to_students(line)
-	month, name, city, hobby = line.split(',')
-	@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
-end
-
-def load_students(filename = "students.csv")
-	 File.open(filename, "r") do |file|
-		file.readlines.each { |line| parse_file_to_students(line) }
-	end
-	interactive_menu
-end
-
 try_load_students
 
-#start_script
-# def student_list_print(students)
-# 	students_list_message
-# 			#filter by starting letter of names
-# 			puts "Please type the starting letter of names you´d like to be filtered!"
-# 			filter_letter = gets.gets
-# 			students.each do |student| 
-# 			if student[:name].downcase.chars.first != filter_letter then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
-# 			#filter by characters in name
-# 			puts "Please type the number of characters in a number where you want to not have it display in the list anymore "
-# 			filter_number = gets.gets
-# 			if student[:name].size < filter_number then print "#{student[:counter]}. #{student[:name]} from the #{student[:cohort].capitalize} cohort\n" end
-# 	end
-# 	how_many_students(students)
-# end
+
 
