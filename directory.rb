@@ -1,3 +1,4 @@
+require 'color_text'
 
 def start_script
 	interactive_menu
@@ -9,7 +10,7 @@ def interactive_menu
 	'list' list students
 	's' save students to list
 	'l' load student from file
-	'x' exit"
+	'x' exit".neon
 	selection = STDIN.gets.chomp
 	
 	interactive_menu_case(selection)
@@ -118,9 +119,9 @@ def student_list_print(students=[])
 	sort_students = students.sort_by{|student| @months.index(student[:month])}
 	sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
 	save_student
-	how_many_students(students)
+	return how_many_students(students)
 	else
-	no_entries_prompt
+	return no_entries_prompt
 	end
 end
 
@@ -130,10 +131,26 @@ def how_many_students(students)
 	#if only one student print student, with more print students
 	if students.count > 1
 	print "_________________\n"
-	print "Overall, we have #{students.count} great students"
+	print "Overall, we have #{students.count} great students\n\n"
 	else
 	print "_________________\n"
-	print "Overall, we have #{students.count} great student"
+	print "Overall, we have #{students.count} great student\n\n"
+	end
+	end_script?
+end
+
+def end_script?
+	puts "Please choose your action!
+	'q' quit
+	'm' menu"
+	answer = STDIN.gets.chomp
+
+	case answer
+		when "q" then exit
+		when "m" then interactive_menu
+		else 
+		puts "Learn to type..."
+		end_script?
 	end
 end
 
@@ -153,7 +170,6 @@ def try_load_students
 	#return if filename.nil?
 	if !filename.nil? && File.exists?(filename) 
 		load_students(filename)
-		puts "successfully loaded file"
 		interactive_menu
 	else
 		interactive_menu
