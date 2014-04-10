@@ -1,4 +1,5 @@
 require 'color_text'
+require 'csv'
 
 def start_script
 	interactive_menu
@@ -23,7 +24,7 @@ def interactive_menu_case(selection)
 	when "list"
 		student_list_print(@students)
 	when "s"
-		save_student
+			set_savefile_name
 	when "l"
 		load_students
 	when "x"
@@ -33,14 +34,23 @@ def interactive_menu_case(selection)
 	end
 end
 
-def save_student
-	file = File.open("students.csv", "w") do |file|
+def set_savefile_name
+	puts "Please provide a filename for your savefile!"
+	@filename = STDIN.gets.chomp
+	save_student(@filename + ".csv")
+end
+
+def save_student(filename)
+	File.open(filename, "w") do |file|
 	@students.each do |student|
 		parse_to_save_file(student, file)
+		puts "File saved!"
+		interactive_menu
 	end
 	#file.close
 	end
 end
+
 
 def parse_to_save_file(student, file)
 student_data = [student[:name], student[:month], student[:city], student[:hobby]]
@@ -48,15 +58,20 @@ csv_line = student_data.join(",")
 file.puts csv_line
 end
 
-def load_students(filename = "students.csv")
-	 File.open(filename, "r") do |file|
-		file.readlines.each { |line| parse_file_to_students(line) }
+def load_students(filename = @filename)
+	puts "Please enter name of file!"
+	filename = STDIN.gets.chomp
+	if File.exist?(filename)
+		puts CSV.read(filename)
+	else
+		puts "no valid filename!"
+		interactive_menu
 	end
-	interactive_menu
+
 end
 
 def parse_file_to_students(line)
-	month, name, city, hobby = line.split(',')
+	month, name, city, hobby = line.each{|student| student}
 	@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
 end
 
@@ -154,7 +169,6 @@ def student_list_print(students=[])
 	students_list_message
 	sort_students = students.sort_by{|student| @months.index(student[:month])}
 	sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
-	save_student
 	return how_many_students(students)
 	else
 	return no_entries_prompt
