@@ -155,13 +155,19 @@ def end_script?
 end
 
 def save_student
-	file = File.open("students.csv", "w")
-	@students.each { |student|
-		student_data = [student[:name], student[:month], student[:city], student[:hobby]]
-		csv_line = student_data.join(",")
-		file.puts csv_line
-	}
-	file.close
+	file = File.open("students.csv", "w") do |file|
+	@students.each do |student|
+		parse_to_save_file(student, file)
+	end
+	#file.close
+	end
+end
+
+def parse_to_save_file(student, file)
+student_data = [student[:name], student[:month], student[:city], student[:hobby]]
+csv_line = student_data.join(",")
+file.puts csv_line
+
 end
 
 def try_load_students
@@ -176,13 +182,15 @@ def try_load_students
 	end
 end
 
+def parse_file_to_students(line)
+	month, name, city, hobby = line.split(',')
+	@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
+end
+
 def load_students(filename = "students.csv")
-	file = File.open(filename, "r")
-	file.readlines.each do |line|
-		month, name, city, hobby = line.split(',')
-		@students << {month: month.to_sym, name: name, city: city, hobby: hobby}
-		end
-	file.close
+	 File.open(filename, "r") do |file|
+		file.readlines.each { |line| parse_file_to_students(line) }
+	end
 	interactive_menu
 end
 
