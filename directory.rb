@@ -1,20 +1,19 @@
 require 'color_text'
 require 'csv'
 
-def try_load_students
+#checks if file was passed and if valid puts csv data into students arraya
+def start_script
 	filename = ARGV.first
-
-		#return if filename.nil?
 		if !filename.nil? && File.exist?(filename) 
-			load_students_in_terminal(filename)
+			load_student_from_command(filename)
 			interactive_menu
 		else
 			interactive_menu
 		end
 end
 
-
-def load_students_in_terminal(filename = @filename)
+#check if csv file is valid and passes data then forwards to menu
+def load_student_from_command(filename = @filename)
 		if File.exist?(filename)
 			csv = CSV.read(filename)
 			parse_to_load_file(csv)
@@ -25,13 +24,15 @@ def load_students_in_terminal(filename = @filename)
 		end
 end
 
-def parse_to_load_file(line)
-	line.each_with_index do |student, index|
-		student = {month: line[index][0] , name: line[index][1], city: line[index][2], hobby: line[index][3]}
+#extracts data from csv and adds to student array
+def parse_to_load_file(csv)
+	csv.each_with_index do |student, index|
+		student = {month: csv[index][0] , name: csv[index][1], city: csv[index][2], hobby: csv[index][3]}
 		@students << student
 	end
 end
 
+#choose your action
 def interactive_menu
 	puts "Hey, choose your action, son:
 	'i' input students
@@ -43,6 +44,7 @@ def interactive_menu
 	interactive_menu_case(selection)
 end
 
+#choose your action
 def interactive_menu_case(selection)
 	case selection
 		when "i"
@@ -60,6 +62,7 @@ def interactive_menu_case(selection)
 	end
 end
 
+#type filename, if available csv is loaded, if not go back to menu
 def load_students_by_filename(filename = @filename)
 	puts "Please enter name of file!"
 	filename = STDIN.gets.chomp
@@ -73,20 +76,21 @@ def load_students_by_filename(filename = @filename)
 		end
 end
 
+#set a name for your savefile
 def set_savefile_name
 	puts "Please provide a filename for your savefile!"
 	@filename = STDIN.gets.chomp
 	save_student(@filename + ".csv")
 end
 
+#saves your input to csv file
 def save_student(filename)
 	File.open(filename, "w") do |file|
-	@students.each do |student|
-		parse_to_save_file(student, file)
-		puts "File saved!"
-		interactive_menu
-	end
-	#file.close
+		@students.each do |student|
+			parse_to_save_file(student, file)
+			puts "File saved!"
+			interactive_menu
+		end
 	end
 end
 
@@ -96,9 +100,12 @@ def parse_to_save_file(student, file)
 	file.puts csv_line
 end
 
+#students array
 @students = []
+#array of months, used to test if a valid month was entered
 @months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
 
+#just a placeholder to introduce some variables
 def placeholder
 	["placeholder", "placeholder", "placeholder", "placeholder"]
 end
@@ -198,6 +205,7 @@ def how_many_students(students)
 	end_script?
 end
 
+#appears at the end of every action to ensure you can go back to the menu
 def end_script?
 	puts "Please choose your action!
 	'q' quit
@@ -214,7 +222,7 @@ def end_script?
 end
 
 #start script
-try_load_students
+start_script
 
 
 
