@@ -1,8 +1,35 @@
 require 'color_text'
 require 'csv'
 
-def start_script
-	interactive_menu
+def try_load_students
+	filename = ARGV.first
+
+		#return if filename.nil?
+		if !filename.nil? && File.exist?(filename) 
+			load_students_in_terminal(filename)
+			interactive_menu
+		else
+			interactive_menu
+		end
+end
+
+
+def load_students_in_terminal(filename = @filename)
+		if File.exist?(filename)
+			csv = CSV.read(filename)
+			parse_to_load_file(csv)
+			interactive_menu
+		else
+			puts "no valid filename!"
+			interactive_menu
+		end
+end
+
+def parse_to_load_file(line)
+	line.each_with_index do |student, index|
+		student = {month: line[index][0] , name: line[index][1], city: line[index][2], hobby: line[index][3]}
+		@students << student
+	end
 end
 
 def interactive_menu
@@ -13,25 +40,37 @@ def interactive_menu
 	'l' load student from file
 	'x' exit".neon
 	selection = STDIN.gets.chomp
-	
 	interactive_menu_case(selection)
 end
 
 def interactive_menu_case(selection)
 	case selection
-	when "i"
-		put_in_user
-	when "list"
-		student_list_print(@students)
-	when "s"
+		when "i"
+			put_in_user
+		when "list"
+			student_list_print(@students)
+		when "s"
 			set_savefile_name
-	when "l"
-		load_students
-	when "x"
-	else
-	puts "I didn´t get that, try again!"
-	interactive_menu
+		when "l"
+			load_students_by_filename
+		when "x"
+		else
+			puts "I didn´t get that, try again!"
+			interactive_menu
 	end
+end
+
+def load_students_by_filename(filename = @filename)
+	puts "Please enter name of file!"
+	filename = STDIN.gets.chomp
+		if File.exist?(filename)
+			csv = CSV.read(filename)
+			parse_to_load_file(csv)
+			interactive_menu
+		else
+			puts "no valid filename!"
+			interactive_menu
+		end
 end
 
 def set_savefile_name
@@ -51,44 +90,10 @@ def save_student(filename)
 	end
 end
 
-
 def parse_to_save_file(student, file)
-student_data = [student[:name], student[:month], student[:city], student[:hobby]]
-csv_line = student_data.join(",")
-file.puts csv_line
-end
-
-def load_students(filename = @filename)
-	puts "Please enter name of file!"
-	filename = STDIN.gets.chomp
-	if File.exist?(filename)
-		csv = CSV.read(filename)
-		parse_to_load_file(csv)
-		interactive_menu
-	else
-		puts "no valid filename!"
-		interactive_menu
-	end
-
-end
-
-def parse_to_load_file(line)
-	line.each_with_index do |student, index|
-		student = {month: line[index][0] , name: line[index][1], city: line[index][2], hobby: line[index][3]}
-		@students << student
-	end
-end
-
-def try_load_students
-	filename = ARGV.first
-
-	#return if filename.nil?
-	if !filename.nil? && File.exist?(filename) 
-		load_students(filename)
-		interactive_menu
-	else
-		interactive_menu
-	end
+	student_data = [student[:name], student[:month], student[:city], student[:hobby]]
+	csv_line = student_data.join(",")
+	file.puts csv_line
 end
 
 @students = []
@@ -125,15 +130,15 @@ def validation_of_user_input(name, cohort, city, hobby)
 	
 			if !name.empty? &&  ( !cohort.empty? && @months.include?("#{cohort}")) && !city.empty? && !hobby.empty?
 				single_student = {month: "#{cohort}", name: name, city: city, hobby: hobby}
-				@students << single_student
+					@students << single_student
 				list_or_continue_prompt
 			elsif !@months.include?("#{cohort}") && !name.empty? && !cohort.empty? && !city.empty? && !hobby.empty?
 				puts "You did´t enter a valid month, please try again!\n\n"
-				put_in_user
+					put_in_user
 			else name.empty? && cohort.empty? && city.empty? && hobby.empty?
 				#prompt when u haven´t entered all information, calls put_in_user
 				puts "Please fill in all fields\n!"
-				list_or_continue_prompt
+					list_or_continue_prompt
 			end
 end
 
@@ -141,8 +146,8 @@ def list_or_continue_prompt
 	puts "For list, enter: 'list' ! To continue adding user, press enter! Type 'menu' to go back to the menu!".center(50)
 	answer = STDIN.gets.chomp
 	#if user wants to make more entries hit return, to see list enter list, calls student_list_printer
-	if answer.downcase == "list" ; return student_list_print(@students) end
-	if answer.downcase == "menu" ; return interactive_menu end
+		if answer.downcase == "list" ; return student_list_print(@students) end
+		if answer.downcase == "menu" ; return interactive_menu end
 	put_in_user
 end
 
@@ -157,12 +162,12 @@ def no_entries_prompt
 	answer = STDIN.gets.chomp
 	case answer
 		when "menu"
-		interactive_menu
+			interactive_menu
 		when "continue" 
-		put_in_user
+			put_in_user
 		when "quit"  
 		else 
-		puts "you´re too dumb for this, goodbye!"
+			puts "you´re too dumb for this, goodbye!"
 	end
 end
 
@@ -170,12 +175,12 @@ end
 def student_list_print(students=[])
 	# puts students.inspect
 	if students.size > 0 
-	students_list_message
-	sort_students = students.sort_by{|student| @months.index(student[:month])}
-	sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
-	return how_many_students(students)
+		students_list_message
+		sort_students = students.sort_by{|student| @months.index(student[:month])}
+		sort_students.each_with_index{|student, counter| puts "#{counter + 1}. #{student[:month]}: #{student[:name]} from #{student[:city]} likes #{student[:hobby]}"}
+		return how_many_students(students)
 	else
-	return no_entries_prompt
+		return no_entries_prompt
 	end
 end
 
@@ -184,11 +189,11 @@ def how_many_students(students)
 	#File.open("student", "w") { |f| f.write @students}
 	#if only one student print student, with more print students
 	if students.count > 1
-	print "_________________\n"
-	print "Overall, we have #{students.count} great students\n\n"
+		print "_________________\n"
+		print "Overall, we have #{students.count} great students\n\n"
 	else
-	print "_________________\n"
-	print "Overall, we have #{students.count} great student\n\n"
+		print "_________________\n"
+		print "Overall, we have #{students.count} great student\n\n"
 	end
 	end_script?
 end
@@ -208,6 +213,7 @@ def end_script?
 	end
 end
 
+#start script
 try_load_students
 
 
